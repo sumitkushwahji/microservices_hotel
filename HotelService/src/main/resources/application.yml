@@ -1,0 +1,33 @@
+server:
+  port: 8082
+spring:
+  application:
+    name: HOTEL-SERVICE
+  jpa:
+      hibernate:
+          ddl-auto: update
+      show-sql: true
+  datasource:
+      url: jdbc:postgresql://localhost:5432/microservices
+      username: postgres
+      password: admin
+      driver-class-name: org.postgresql.Driver
+      hikari:
+        maximum-pool-size: 10   # Max connections in the pool
+        minimum-idle: 2         # Min idle connections
+        idle-timeout: 30000     # Idle timeout in ms
+        max-lifetime: 1800000   # Max lifetime of a connection in ms
+        connection-timeout: 20000 # Connection timeout in ms
+        pool-name: HOTEL-SERVICE-HikariCP # Optional: name for the pool
+
+
+eureka:
+  instance:
+    hostname: localhost  # Hostname
+  client:
+    registerWithEureka: true  # Register with Eureka
+    fetchRegistry: true  # Fetch the registry
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/  # Eureka server URL
+
+

@@ -1,0 +1,65 @@
+server:
+  port: 8081  # Server port
+
+
+spring:
+  application:
+    name: USER-SERVICE    # Application name
+
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/microservice
+    username: root
+    password: admin
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+
+
+
+  jpa:
+    hibernate:
+      ddl-auto: update  # Automatically update the database schema
+    show-sql: true  # Show SQL queries in the console
+
+
+  config:
+    import: optional:configserver:http://localhost:8085
+#    fail-fast: true
+
+
+#eureka:
+#  instance:
+#    hostname: localhost  # Hostname
+#  client:
+#      registerWithEureka: true  # Register with Eureka
+#      fetchRegistry: true  # Fetch the registry
+#      serviceUrl:
+#          defaultZone: http://localhost:8761/eureka/  # Eureka server URL
+
+
+management:
+  health:
+    circuitBreaker:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+  endpoint:
+      health:
+        show-details: always
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      default:
+        registerHealthIndicator: true
+        eventConsumerBufferSize: 10
+        failureRateThreshold: 50
+        minimumNumberOfCalls: 5
+        automaticTransitionFromOpenToHalfOpenEnabled: true
+        permittedNumberOfCallsInHalfOpenState: 3
+        waitDurationInOpenState: 6s
+        slidingWindowType: COUNT_BASED
+        slidingWindowSize: 10

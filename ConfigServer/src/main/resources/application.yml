@@ -1,0 +1,13 @@
+server:
+  port: 8085  # Server port
+
+spring:
+  application:
+    name: CONFIG-SERVER    # Application name
+
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/sumitkushwahji/microservice_Hotel_mgmt_config
+          clone-on-start: true
