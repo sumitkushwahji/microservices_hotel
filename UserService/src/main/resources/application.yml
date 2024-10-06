@@ -21,20 +21,24 @@ spring:
       ddl-auto: update  # Automatically update the database schema
     show-sql: true  # Show SQL queries in the console
 
+  cloud:
+    config:
+      enabled: false
 
-  config:
-    import: optional:configserver:http://localhost:8085
+
+#  config:
+#    import: optional:configserver:http://localhost:8085
 #    fail-fast: true
 
 
-#eureka:
-#  instance:
-#    hostname: localhost  # Hostname
-#  client:
-#      registerWithEureka: true  # Register with Eureka
-#      fetchRegistry: true  # Fetch the registry
-#      serviceUrl:
-#          defaultZone: http://localhost:8761/eureka/  # Eureka server URL
+eureka:
+  instance:
+    hostname: localhost  # Hostname
+  client:
+      registerWithEureka: true  # Register with Eureka
+      fetchRegistry: true  # Fetch the registry
+      serviceUrl:
+          defaultZone: http://localhost:8761/eureka/  # Eureka server URL
 
 
 management:
@@ -44,7 +48,7 @@ management:
   endpoints:
     web:
       exposure:
-        include: "*"
+        include: health
 
   endpoint:
       health:
@@ -61,5 +65,18 @@ resilience4j:
         automaticTransitionFromOpenToHalfOpenEnabled: true
         permittedNumberOfCallsInHalfOpenState: 3
         waitDurationInOpenState: 6s
-        slidingWindowType: COUNT_BASED
         slidingWindowSize: 10
+        slidingWindowType: COUNT_BASED
+
+retry:
+  instances:
+    default:
+        maxRetryAttempts: 3
+        waitDuration: 1s
+
+rateLimiter:
+  instances:
+    default:
+        limitForPeriod: 10
+        limitRefreshPeriod: 1s
+        timeoutDuration: 1s

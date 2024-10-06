@@ -6,6 +6,7 @@ import com.sumit.user.service.entities.User;
 import com.sumit.user.service.services.UserService;
 import com.sumit.user.service.services.impl.UserServiceImpl;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+import io.github.resilience4j.retry.annotation.Retry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,21 +41,30 @@ public class UserController {
     }
 
 
+//    int retryCount =1;
 
 //        get user by id
 
     @GetMapping("/{uid}")
-//    @CircuitBreaker(name = "default", fallbackMethod = "fallback")
-    public ResponseEntity<User> getUser(@PathVariable String uid){
+    @CircuitBreaker(name = "default", fallbackMethod = "fallback")
+//    @Retry(name = "retryService", fallbackMethod = "fallback")
+    public ResponseEntity<User> getUser(@PathVariable String uid) {
+//        logger.info("retry count: {}", retryCount);
+//        retryCount++;
         User user = userService.getUser(uid);
         return ResponseEntity.ok(user);
     }
 
-//    public ResponseEntity<User> fallback( String uid ,Exception e) {
-//        logger.info("Fallback response : {}", e.getMessage());
-//        User build = User.builder().email("0000").name("").about("").build();
-//        return new ResponseEntity<>(build, HttpStatus.OK);
-//    }
+    public ResponseEntity<User> fallback(String uid, Throwable throwable) {
+        logger.info("Fallback response for uid {}: {}", uid, throwable.getMessage());
+        // Building a fallback User object with default values
+        User fallbackUser = User.builder()
+                .email("0000")
+                .name("Fallback User")
+                .about("Fallback user due to error: " + throwable.getMessage())
+                .build();
+        return new ResponseEntity<>(fallbackUser, HttpStatus.OK);
+    }
 
 
 

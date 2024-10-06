@@ -55,7 +55,7 @@ public class UserServiceImpl implements UserService {
         // Call another microservice to get the hotels of each rating using stream and map
         List<Rating> ratingList = ratings.stream().map(rating -> {
             ResponseEntity<Hotel> forEntity = restTemplate.getForEntity(
-                    "http://HOTELSERVICE/hotels/" + rating.getHotelId(), Hotel.class);
+                    "http://HOTEL-SERVICE/hotels/" + rating.getHotelId(), Hotel.class);
             Hotel hotel = forEntity.getBody();
             rating.setHotel(hotel);
             return rating;
