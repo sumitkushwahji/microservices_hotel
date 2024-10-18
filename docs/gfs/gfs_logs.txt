@@ -1,0 +1,7 @@
+[2024-10-18T21:50:46.435Z] [INFO]: Created .gfs_ignore. You can extend this with more ignore patterns.
+[2024-10-18T21:50:46.436Z] [INFO]: Created .gfs_include. You can add patterns to override exclusions.
+[2024-10-18T21:50:46.438Z] [ERROR]: File does not exist: c:\Users\sumit\Desktop\code with durgesh\Microservices\microservices_hotel\.gitignore
+[2024-10-18T21:50:46.453Z] [INFO]: Ignoring: .git
+[2024-10-18T21:50:46.454Z] [INFO]: Ignoring: .vscode
+[2024-10-18T21:50:46.505Z] [INFO]: Ignoring: gfs
+[2024-10-18T21:50:46.509Z] [INFO]: Folder structure written to: c:\Users\sumit\Desktop\code with durgesh\Microservices\microservices_hotel\docs\project_structure.txt
